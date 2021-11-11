@@ -20,6 +20,11 @@
 @stop
 
 @section('content')
+    
+    <div id="app">
+        <example-component></example-component>    
+    </div>
+    
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Users List</h3>
@@ -52,6 +57,8 @@
         </div>
         <!-- /.card-footer-->
     </div>
+
+    
 
     <!--Modal Delete User-->
     <div class="modal fade" data-backdrop="static" id="modal-delete-user">
@@ -87,7 +94,6 @@
 
 @section('js')
     <script type="text/javascript">
-        
         var userDT = $('#table-user').DataTable({
             processing: true,
             serverSide: true,
@@ -211,4 +217,5 @@
         //ENDBlock Delete submission
 
     </script>
+    <script src="{{ mix('/js/app.js') }}"></script>
 @stop
