@@ -251,6 +251,7 @@ return [
             'text' => 'Users',
             'url'  => 'user',
             'icon' => 'fas fa-fw fa-users',
+            'id'=>'manage-user-menu',
             'can'=>'manage-user'
         ],
 

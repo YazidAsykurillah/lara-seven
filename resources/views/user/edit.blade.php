@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'Create User')
+@section('title', 'Edit User')
 
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0">Create User</h1>
+            <h1 class="m-0">Edit User</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -13,7 +13,8 @@
                     <a href="/home"><i class="fas fa-home"></i></a>
                 </li>
                 <li class="breadcrumb-item"><a href="/user">Users</a></li>
-                <li class="breadcrumb-item active">Create</li>
+                <li class="breadcrumb-item"><a href="/user/{{ $user->id }}">{{ $user->name }}</a></li>
+                <li class="breadcrumb-item active">Edit</li>
             </ol>
         </div><!-- /.col -->
     </div>
@@ -21,10 +22,11 @@
 
 @section('content')
     <div class="card">
-        <form class="" id="form-create-user" action="{{ url('/user')}}" method="POST">
+        <form class="" id="form-update-user" action="{{ url('/user/'.$user->id.'')}}" method="POST">
             @csrf
+            {{ method_field('PUT') }}
             <div class="card-header">
-                Form Create User
+                Form Edit User
             </div>
             <div class="card-body">
                 <div class="row">
@@ -39,13 +41,13 @@
                                 <div class="form-group row">
                                     <label for="name" class="col-sm-3 col-form-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="name" placeholder="Name of the user">
+                                        <input type="text" class="form-control" name="name" placeholder="Name of the user" value="{{ $user->name }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="email" class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" name="email" placeholder="Email of the user">
+                                        <input type="email" class="form-control" name="email" placeholder="Email of the user" value="{{ $user->email }}">
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +64,7 @@
                                 @if($role_options->count() >0)
                                     @foreach($role_options as $role_option)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="role_name[]" value="{{ $role_option->name }}">
+                                        <input class="form-check-input" type="checkbox" name="role_name[]" value="{{ $role_option->name }}" {{ $user->hasRole($role_option->name) == true ? "checked" :"" }} >
                                         <label class="form-check-label">
                                             {{ $role_option->name }}
                                         </label>
@@ -93,7 +95,7 @@
         $('#manage-user-menu').find('.nav-link').addClass('active');
         
         //Block store user event
-        $('#form-create-user').on('submit', function(event){
+        $('#form-update-user').on('submit', function(event){
             event.preventDefault();
             let url = $(this).attr('action');
             $.ajax({
@@ -102,12 +104,12 @@
                 data: $(this).serialize(),
                 dataType: 'json',
                 beforeSend:function(){
-                    $('#form-create-user').find("button[type='submit']").prop('disabled', true);
+                    $('#form-update-user').find("button[type='submit']").prop('disabled', true);
                 },
                 success: function(data){
                     console.log(data);
                     if(data.status == true){
-                        $('#form-create-user')[0].reset();
+                        $('#form-update-user')[0].reset();
                         Swal.fire({
                             toast: true,
                             position: 'top-end',
@@ -116,10 +118,10 @@
                             icon: 'success',
                             title: data.message
                         });
-                        $('#form-create-user').find("button[type='submit']").prop('disabled', false);
+                        $('#form-update-user').find("button[type='submit']").prop('disabled', false);
                         window.location.href = data.data.url;
                     }else{
-                        $('#form-create-user').find("button[type='submit']").prop('disabled', false);
+                        $('#form-update-user').find("button[type='submit']").prop('disabled', false);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
@@ -142,7 +144,7 @@
                         subtitle: ' Validation error',
                         body: error_template
                     });
-                    $('#form-create-user').find("button[type='submit']").prop('disabled', false);
+                    $('#form-update-user').find("button[type='submit']").prop('disabled', false);
                 }
             });
         });

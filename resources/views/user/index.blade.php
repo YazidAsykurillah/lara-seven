@@ -120,9 +120,9 @@
                 }},
                 {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center', render:function(data, type, row, meta){
                     let action ='';
-                        action+='<button class="btn btn-default btn-xs btn-edit" title="Edit">';
+                        action+='<a href="/user/'+row.id+'/edit" class="btn btn-default btn-xs btn-edit" title="Edit">';
                         action+=    '<i class="fas fa-edit"></i>';
-                        action+='</button>';
+                        action+='</a>';
                     return action;
                 }},
             ]

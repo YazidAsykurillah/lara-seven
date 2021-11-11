@@ -69,10 +69,11 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')
     <script type="text/javascript">
-        
+        $('#manage-user-menu').find('.nav-link').addClass('active');
     </script>
 @stop

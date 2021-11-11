@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 use App\User;
 
@@ -90,7 +91,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $role_options = \App\Role::get();
+        return view('user.edit')
+            ->with('user', $user)
+            ->with('role_options', $role_options);
     }
 
     /**
@@ -100,9 +105,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        $response=[];
+        try {
+            $user = User::findOrFail($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+
+            //if there are submitted roles then assign user to the roles
+            $roles = $request->role_name;
+            if($roles){
+                $user->syncRoles($roles);    
+            }
+
+            $response['status'] = TRUE;
+            $response['message'] = 'User has been updated';
+            $response['data']['url'] = url('/user/'.$user->id);
+            
+        } catch (Exception $e) {
+            return $e;
+        }
+        return response()->json($response);
     }
 
     /**
@@ -113,8 +138,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
-
         $result = FALSE;
         try {
             $user = User::find($id);
