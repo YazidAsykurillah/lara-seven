@@ -45,8 +45,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        
-
+        $response=[];
         try {
             $user = new User;
             $user->name = $request->name;
@@ -78,7 +77,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('user.show')
+            ->with('user', $user);
     }
 
     /**
@@ -112,6 +113,41 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+
+        $result = FALSE;
+        try {
+            $user = User::find($id);
+            //Super Admin is NOT deletable
+            if($user->hasRole('Super Admin')){
+                $result = FALSe;
+            }else{
+                $user->delete();
+                $result = TRUE;    
+            }
+        } catch (Exception $e) {
+            $result = FALSE;
+        }
+        return $result;
+    }
+
+    public function delete(Request $request)
+    {
+        $response =[];
+        if(count($request->id)){
+            $counter = 0;
+            foreach($request->id as $id){
+                $destroy = $this->destroy($id);
+                if($destroy == TRUE){
+                    $counter++;
+                }
+            }
+            $response['status'] = TRUE;
+            $response['message'] = $counter.' user(s) has been deleted';
+        }else{
+            $response['status'] = FALSE;
+            $response['message'] = 'No data supplied';
+        }
+        return response()->json($response);
     }
 }

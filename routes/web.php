@@ -34,4 +34,5 @@ Route::resource('permission', 'PermissionController');
 
 //User
 Route::get('user/datatables', 'Datatables\UserDatatablesController@index');
+Route::post('user/delete', 'UserController@delete');
 Route::resource('user','UserController');
