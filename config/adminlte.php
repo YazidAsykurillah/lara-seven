@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'DENSO',
+    'title' => 'DENSO MFG PORTAL',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>DENSO</b> BOILERPLATE',
+    'logo' => '<b>DENSO</b> MFG Portal',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -233,6 +233,56 @@ return [
         ],
 
         // Sidebar items:
+        //Main Navigation
+        [
+            'header' => 'MAIN NAVIGATION',
+        ],
+        [
+            'text' => 'Blog',
+            'url'  => 'admin/blog',
+        ],
+
+        //Human Resource
+        [
+            'header' => 'HUMAN RESOURCE',
+            'can'=>'access-human-resource'
+        ],
+        [
+            'text' => 'Users',
+            'url'  => 'user',
+            'icon' => 'fas fa-fw fa-users',
+            'can'=>'manage-user'
+        ],
+
+        //Master Data
+        [
+            'header' => 'MASTER DATA',
+            'can'=>'access-master-data'
+        ],
+        [
+            'text' => 'Machines',
+            'url'  => 'machine',
+            'icon' => 'fas fa-fw fa-snowplow',
+            'can'=>'access-master-data-machine'
+        ],
+        [
+            'text' => 'Lines',
+            'url'  => 'line',
+            'icon' => 'fas fa-fw fa-pallet',
+            'can'=>'access-master-data-line'
+        ],
+        [
+            'text' => 'Break Downs',
+            'url'  => 'breakdown',
+            'icon' => 'fas fa-fw fa-bell-slash',
+            'can'=>'access-master-data-breakdown'
+        ],
+
+        //Configurations
+        [
+            'header' => 'CONFIGURATIONS',
+            'can'=>'access-configuration'
+        ],
         [
             'text'    => 'Roles and Permissions',
             'icon'    => 'fas fa-fw fa-cogs',
@@ -249,15 +299,16 @@ return [
                 ],
             ],
         ],
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'url'  => 'account-setting/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'url'  => 'account-setting/change-password',
             'icon' => 'fas fa-fw fa-lock',
         ],
         

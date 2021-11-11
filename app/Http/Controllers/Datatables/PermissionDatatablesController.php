@@ -5,16 +5,13 @@ namespace App\Http\Controllers\Datatables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-//use Spatie\Permission\Models\Role;
-use App\Role;
+use App\Permission;
 use DataTables;
-
-class RoleDatatablesController extends Controller
+class PermissionDatatablesController extends Controller
 {
     public function index()
     {
-        $data = Role::where('name','!=', 'Super Admin')
-            ->latest()->get();
+        $data = Permission::latest()->get();
         return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){

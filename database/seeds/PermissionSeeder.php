@@ -13,8 +13,8 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $create_user = Permission::updateOrCreate(
-            ['name' => 'create user'],
-            ['name' => 'create user']
+            ['name' => 'create-user'],
+            ['name' => 'create-user']
         );
         $create_user->syncRoles(['Admin']);
 

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
-use App\Role;
+
+use App\Http\Requests\StorePermissionRequest;
+use App\Http\Requests\UpdatePermissionRequest;
 use App\Permission;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
     public function __construct()
     {
@@ -22,7 +22,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('role.index');
+        return view('permission.index');
     }
 
     /**
@@ -41,16 +41,15 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRoleRequest $request)
+    public function store(StorePermissionRequest $request)
     {
         $response = [];
         try {
-            $role = new Role;
-            $role->code = $request->code;
-            $role->name = $request->name;
-            $role->save();
+            $permission = new Permission;
+            $permission->name = $request->name;
+            $permission->save();
             $response['status'] = TRUE;
-            $response['message'] = 'Role has been saved';
+            $response['message'] = 'Permission has been saved';
         } catch (Exception $e) {
             
         }
@@ -65,11 +64,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = Role::findOrFail($id);
-        $permissions = Permission::all();
-        return view('role.show')
-            ->with('role', $role)
-            ->with('permissions', $permissions);
+        //
     }
 
     /**
@@ -90,16 +85,15 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdatePermissionRequest $request, $id)
     {
         $response = [];
         try {
-            $role = Role::find($id);
-            $role->code = $request->code;
-            $role->name = $request->name;
-            $role->save();
+            $permission = Permission::find($id);
+            $permission->name = $request->name;
+            $permission->save();
             $response['status'] = TRUE;
-            $response['message'] = 'Role has been updated';
+            $response['message'] = 'Permission has been updated';
         } catch (Exception $e) {
             
         }
@@ -116,8 +110,8 @@ class RoleController extends Controller
     {
         $result = FALSE;
         try {
-            $role = Role::find($id);
-            $role->delete();
+            $permission = Permission::find($id);
+            $permission->delete();
             $result = TRUE;
         } catch (Exception $e) {
             $result = FALSE;
@@ -132,7 +126,7 @@ class RoleController extends Controller
                 $destroy = $this->destroy($id);
                 if($destroy == TRUE){
                     $response['status'] = TRUE;
-                    $response['message'] = 'Selected role has been deleted';
+                    $response['message'] = 'Selected permission has been deleted';
                 }
             }
         }else{
@@ -140,25 +134,5 @@ class RoleController extends Controller
             $response['message'] = 'No data supplied';
         }
         return response()->json($response);
-    }
-
-    public function updatePermission(Request $request)
-    {
-        
-        $response =[];
-        try {
-            $role = Role::findOrFail($request->role_id);
-            $permissions = $request->permission_name;
-            $role->syncPermissions($permissions);
-            $response['status'] = TRUE;
-            $response['message'] = 'Permission has been updated';
-        } catch (Exception $e) {
-            $response['status'] = FALSE;
-            $response['message'] = $e->getMessage();
-        }
-        
-        return response()->json($response);
-
-                
     }
 }
