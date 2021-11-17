@@ -21,10 +21,6 @@
 
 @section('content')
     
-    <div id="app">
-        <example-component></example-component>    
-    </div>
-    
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Users List</h3>
@@ -215,7 +211,6 @@
             });
         });
         //ENDBlock Delete submission
-
     </script>
-    <script src="{{ mix('/js/app.js') }}"></script>
+    
 @stop

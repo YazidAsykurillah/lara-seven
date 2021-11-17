@@ -77,7 +77,6 @@
 
     {{-- Body Content --}}
     @yield('body')
-
     {{-- Base Scripts --}}
     @if(!config('adminlte.enabled_laravel_mix'))
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
